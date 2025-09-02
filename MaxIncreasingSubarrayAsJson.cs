@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Linq;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace PusulaAssessment
 {
@@ -6,62 +8,44 @@ namespace PusulaAssessment
     {
         public static void Main()
         {
-
-            var input4 = new List<int> { 1, 3, 5, 4, 7, 8, 2 };
-            //var input5 = new List<int>(); 
-
-            
-            Console.WriteLine(MaxIncreasingSubarray(input4));
-            //Console.WriteLine(MaxIncreasingSubarrayAsJson(input5)); 
+            var input = new List<int> { 1, 3, 5, 5, 4, 4, 7, 8 };            
+          
+            Console.WriteLine(MaxIncreasingSubarray(input));   
         }
 
 
         public static string MaxIncreasingSubarray(List<int> numbers)
         {
-            //if list is empty
             if (numbers == null || numbers.Count == 0)
             {
                 return "[]";
             }
+            
+            var bestArrays = new List<List<int>>(); // Ardışık dizileri tutmak için
+            var current = new List<int>();
 
-            List<int> bestArray = new List<int>();
-            int bestSum = int.MinValue;
-
-            List<int> currentArray = new List<int>();
-            int currentSum = 0;
-
-            for (int i = 0; i < numbers.Count; i++)
+            foreach (var num in numbers)
             {
-                // metoda gönderilen dizideki ilgili eleman ile currentArray'e eklenen son eleman karşılaştırılıyor
-                if (currentArray.Count == 0 || numbers[i] > currentArray[currentArray.Count - 1])
+                if (current.Count == 0 || num > current.Last())
                 {
-                    currentArray.Add(numbers[i]);
-                    currentSum += numbers[i];
+                    current.Add(num);
                 }
                 else
                 {
-                    if (currentSum > bestSum)
-                    {
-                        bestSum = currentSum;
-                        bestArray = new List<int>(currentArray);
-                    }
-
-                    // Artış bozulduğu için mevcut dizi sıfırlanıyor.
-                    // Yeni bir artan dizi bu elemandan itibaren başlatılıyor.
-                    currentArray.Clear();
-                    currentArray.Add(numbers[i]);
-                    currentSum = numbers[i];
+                    bestArrays.Add(current);
+                    current = new List<int> { num };
                 }
             }
 
-            //diziyi güncelleme
-            if (currentSum > bestSum)
-            {
-                bestSum = currentSum;
-                bestArray = new List<int>(currentArray);
-            }
+            // son alt diziyi ekledim
+            bestArrays.Add(current);
 
-            return JsonSerializer.Serialize(bestArray);
+            
+            var best = bestArrays
+                .OrderByDescending(a => a.Sum()) //Tutulan ardışık dizilerden toplamı büyük olanı aldım
+                .FirstOrDefault();
+
+            return JsonSerializer.Serialize(best ?? new List<int>());
         }
     }
 }
