@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace PusulaAssessment
 {
-    class LongestVowelSubsequenceAsJson
+    class LongestVowelSubsequence
     {
-        public static string LongestVowelSubsequence(List<string> words)
+        public static string LongestVowelSubsequenceAsJson(List<string> words)
         {
             if (words == null || words.Count == 0)
             {
@@ -15,15 +15,20 @@ namespace PusulaAssessment
 
             char[] sesliHarfler = { 'a', 'e', 'i', 'o', 'u' };
 
+            // words listesindeki her kelime tek tek işlenir
             var results = words.Select(word =>
             {
+                // En uzun sesli harf dizisini tutmak için
                 string bestSequence = "";
-                string currentSequence = "";
 
+                // Geçici olarak mevcut sesli harf dizisini tutmak için
+                string currentSequence = "";
+                
                 foreach (char c in word)
                 {
-                    if (sesliHarfler.Contains(char.ToLower(c))) // LINQ kullanımı
+                    if (sesliHarfler.Contains(char.ToLower(c))) 
                     {
+                        // Eğer harf sesli harfler içinde varsa mevcut diziyi güncelle
                         currentSequence += c;
                         if (currentSequence.Length > bestSequence.Length)
                         {

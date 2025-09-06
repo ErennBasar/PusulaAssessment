@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace PusulaAssessment
 {
-    class MaxIncreasingSubarrayAsJson
+    class MaxIncreasingSubarray
     {     
-        public static string MaxIncreasingSubarray(List<int> numbers)
+        public static string MaxIncreasingSubarrayAsJson(List<int> numbers)
         {
             if (numbers == null || numbers.Count == 0)
             {

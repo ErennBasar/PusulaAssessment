@@ -14,8 +14,7 @@ namespace PusulaAssessment
         {
             var options = new JsonSerializerOptions
             {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, // Türkçe karakterleri korumak için
-                WriteIndented = false
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, // Türkçe karakterleri korumak için                
             };
 
             if (employees == null || !employees.Any())
